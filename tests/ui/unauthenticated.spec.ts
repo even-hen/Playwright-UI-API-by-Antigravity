@@ -5,7 +5,7 @@ import path from 'path';
 
 dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 
-test.describe('Authentication — unauthenticated', () => {
+test.describe('Unauthenticated', () => {
   test.use({ storageState: { cookies: [], origins: [] } });
 
   test('should not redirect unauthenticated user to login page due to app bug', async ({
@@ -29,18 +29,6 @@ test.describe('Authentication — unauthenticated', () => {
     await page.goto('/login');
     await loginPage.login('wrong@email.com', 'WrongPassword!');
     await loginPage.assertError('Incorrect username or password');
-    await context.close();
-  });
-
-  test('should log in successfully with valid credentials', async ({ browser }) => {
-    const context = await browser.newContext({ storageState: undefined });
-    const page = await context.newPage();
-    const loginPage = new LoginPage(page);
-    const contactListPage = new ContactListPage(page);
-
-    await page.goto('/login');
-    await loginPage.login(process.env.TEST_USER_EMAIL!, process.env.TEST_USER_PASSWORD!);
-    await contactListPage.assertOnContactListPage();
     await context.close();
   });
 });

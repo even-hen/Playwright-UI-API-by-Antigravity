@@ -11,6 +11,7 @@ export class LoginPage {
   readonly emailInput: Locator;
   readonly passwordInput: Locator;
   readonly submitButton: Locator;
+  readonly signUpButton: Locator;
   readonly errorMessage: Locator;
 
   constructor(page: Page) {
@@ -18,12 +19,18 @@ export class LoginPage {
     this.emailInput = page.locator('#email');
     this.passwordInput = page.locator('#password');
     this.submitButton = page.locator('#submit');
+    this.signUpButton = page.locator('#signup');
     this.errorMessage = page.locator('#error');
   }
 
   /** Navigate directly to the login page. */
   async goto(): Promise<void> {
     await this.page.goto('/login');
+  }
+
+  /** Navigate to the sign up page. */
+  async clickSignUp(): Promise<void> {
+    await this.signUpButton.click();
   }
 
   /** Fill in credentials and submit the login form. */
