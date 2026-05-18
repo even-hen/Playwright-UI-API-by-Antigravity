@@ -48,7 +48,6 @@ A modern, production-grade test automation framework for the [Contact List App](
 
 ```bash
 git clone <your-repo-url>
-cd AutomatedTesting
 npm install
 npx playwright install --with-deps chromium firefox
 ```
@@ -64,13 +63,7 @@ Edit `.env` and set your credentials:
 ```
 BASE_URL=https://thinking-tester-contact-list.herokuapp.com
 API_BASE_URL=https://thinking-tester-contact-list.herokuapp.com
-TEST_USER_EMAIL=your-test-user@example.com
-TEST_USER_PASSWORD=YourPassword123!
 ```
-
-> ⚠️ The test user **must already exist** in the app. Register once manually or via the API.
-
----
 
 ## ▶️ Running Tests
 
@@ -158,5 +151,3 @@ Add the following secrets to your GitHub repository (`Settings → Secrets → A
 | -------------------- | ------------------ |
 | `BASE_URL`           | App base URL       |
 | `API_BASE_URL`       | API base URL       |
-| `TEST_USER_EMAIL`    | Test user email    |
-| `TEST_USER_PASSWORD` | Test user password |
