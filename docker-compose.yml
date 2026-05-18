@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  playwright:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runner
+    image: contact-list-tests
+    container_name: playwright-tests
+
+    # Mount .env file so tests can read credentials
+    env_file:
+      - .env
+
+    # Mount output directories so reports are accessible on the host
+    volumes:
+      - ./playwright-report:/app/playwright-report
+      - ./test-results:/app/test-results
+      - ./.auth:/app/.auth
+
+    # Override command per profile:
+    #   docker compose up             → all tests
+    #   docker compose run playwright npx playwright test --project=api
+    command: npx playwright test
+
+  # Run only API tests
+  playwright-api:
+    extends:
+      service: playwright
+    container_name: playwright-api-tests
+    command: npx playwright test --project=api
+
+  # Run only UI tests (chromium)
+  playwright-ui:
+    extends:
+      service: playwright
+    container_name: playwright-ui-tests
+    command: npx playwright test --project=chromium

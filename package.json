@@ -1,0 +1,39 @@
+{
+  "name": "contact-list-automation",
+  "version": "1.0.0",
+  "description": "Modern Playwright test automation framework for the Contact List App — UI & API testing with TypeScript, Zod, and Faker",
+  "scripts": {
+    "test": "playwright test",
+    "test:api": "playwright test --project=api",
+    "test:ui": "playwright test --project=chromium",
+    "test:ui-mode": "playwright test --ui",
+    "test:headed": "playwright test --headed --project=chromium",
+    "test:debug": "playwright test --debug",
+    "report": "playwright show-report",
+    "register": "npx ts-node scripts/register-test-user.ts",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "keywords": [
+    "playwright",
+    "typescript",
+    "automation",
+    "testing",
+    "zod",
+    "pom",
+    "api-testing",
+    "ui-testing"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@faker-js/faker": "^10.4.0",
+    "@playwright/test": "^1.60.0",
+    "@types/node": "^25.8.0",
+    "dotenv": "^17.4.2",
+    "prettier": "^3.8.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^6.0.3",
+    "zod": "^4.4.3"
+  }
+}
