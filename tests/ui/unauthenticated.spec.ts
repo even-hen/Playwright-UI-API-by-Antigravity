@@ -1,9 +1,5 @@
 import { test, expect } from '@playwright/test';
 import { LoginPage, ContactListPage } from '../../src/ui/pages';
-import dotenv from 'dotenv';
-import path from 'path';
-
-dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 
 test.describe('Unauthenticated', () => {
   test.use({ storageState: { cookies: [], origins: [] } });

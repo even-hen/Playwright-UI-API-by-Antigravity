@@ -2,10 +2,6 @@ import { test } from '@playwright/test';
 import { ContactListPage, AddContactPage } from '../../src/ui/pages';
 import { generateContact, generateUser } from '../../src/utils/data.factory';
 import { UserApiClient } from '../../src/api/clients/user.client';
-import dotenv from 'dotenv';
-import path from 'path';
-
-dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 
 test.describe('Add Contact', () => {
   let token: string;

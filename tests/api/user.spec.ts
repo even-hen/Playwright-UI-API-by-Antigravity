@@ -1,11 +1,7 @@
 import { test, expect } from '@playwright/test';
-import dotenv from 'dotenv';
-import path from 'path';
 import { UserApiClient } from '../../src/api/clients/user.client';
 import { generateUser } from '../../src/utils/data.factory';
 import { loginResponseSchema } from '../../src/api/schemas';
-
-dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 
 const BASE_URL = process.env.API_BASE_URL!;
 

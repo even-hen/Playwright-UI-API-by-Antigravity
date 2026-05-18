@@ -9,11 +9,10 @@
     "resolveJsonModule": true,
     "outDir": "./dist",
     "rootDir": "./",
-    "baseUrl": "./",
     "paths": {
-      "@api/*": ["src/api/*"],
-      "@ui/*": ["src/ui/*"],
-      "@utils/*": ["src/utils/*"]
+      "@api/*": ["./src/api/*"],
+      "@ui/*": ["./src/ui/*"],
+      "@utils/*": ["./src/utils/*"]
     }
   },
   "include": ["src/**/*.ts", "tests/**/*.ts", "*.ts"],

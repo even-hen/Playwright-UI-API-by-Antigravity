@@ -1,12 +1,8 @@
 import { test, expect, APIRequestContext } from '@playwright/test';
-import dotenv from 'dotenv';
-import path from 'path';
 import { UserApiClient } from '../../src/api/clients/user.client';
 import { ContactApiClient } from '../../src/api/clients/contact.client';
 import { generateUser, generateContact } from '../../src/utils/data.factory';
 import { contactSchema, contactListSchema } from '../../src/api/schemas';
-
-dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 
 const BASE_URL = process.env.API_BASE_URL!;
 
