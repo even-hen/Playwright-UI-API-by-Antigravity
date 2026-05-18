@@ -34,14 +34,6 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium firefox
 
-      # ── Create .env from GitHub Secrets ──────────────────────────────────────
-      - name: Create .env file
-        run: |
-          echo "BASE_URL=${{ secrets.BASE_URL }}" >> .env
-          echo "API_BASE_URL=${{ secrets.API_BASE_URL }}" >> .env
-          echo "TEST_USER_EMAIL=${{ secrets.TEST_USER_EMAIL }}" >> .env
-          echo "TEST_USER_PASSWORD=${{ secrets.TEST_USER_PASSWORD }}" >> .env
-
       # ── Run all tests ─────────────────────────────────────────────────────────
       - name: Run Playwright tests
         run: npx playwright test
