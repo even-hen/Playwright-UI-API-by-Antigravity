@@ -4,8 +4,6 @@ import path from 'path';
 
 dotenv.config({ path: path.resolve(__dirname, '.env') });
 
-export const AUTH_STATE_PATH = path.join(__dirname, '.auth', 'user.json');
-
 export default defineConfig({
   testDir: './tests',
   // UI tests now use dynamically created isolated users per test suite
