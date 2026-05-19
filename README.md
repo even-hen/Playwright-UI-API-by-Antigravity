@@ -126,6 +126,7 @@ UI pages are encapsulated in typed classes under `src/ui/pages/`:
 - `LoginPage` — Login form interactions & assertions
 - `ContactListPage` — Contact table, navigation, logout
 - `AddContactPage` — New contact form submission
+- `AddUserPage` — New user registration (sign-up) form submission
 - `EditContactPage` — Contact edit form
 - `ContactDetailPage` — Contact detail view & delete
 
