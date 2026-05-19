@@ -33,11 +33,11 @@ test.describe('Contact List', () => {
 
   test.afterEach(async () => {
     if (token && userClient) {
-      await userClient.deleteMe(token).catch(() => {});
+      await userClient.deleteMe(token).catch(() => { });
     }
   });
 
-  test('should display the contact list page after login', async ({ contactListPage }) => {
+  test('should display the contact list page', async ({ contactListPage }) => {
     await contactListPage.goto();
     await contactListPage.assertOnContactListPage();
   });

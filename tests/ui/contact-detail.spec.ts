@@ -90,6 +90,86 @@ test.describe('Contact Detail', () => {
     await expect(contactDetailPage.firstNameField).toHaveText(updatedName);
   });
 
+  test('should show validation error when editing a contact and clearing first name', async ({
+    contactListPage,
+    addContactPage,
+    contactDetailPage,
+    editContactPage,
+  }) => {
+    const contact = generateContact();
+
+    // Create via UI then wait for redirect back to list
+    await contactListPage.goto();
+    await contactListPage.clickAddContact();
+    await addContactPage.fillAndSubmit(contact);
+    await contactListPage.assertOnContactListPage();
+
+    // Click contact row to open detail, then edit
+    await contactListPage.assertContactVisible(contact.firstName, contact.lastName);
+    await contactListPage.clickContact(contact.firstName, contact.lastName);
+    await contactDetailPage.clickEdit();
+
+    await editContactPage.assertOnEditContactPage();
+    await editContactPage.firstNameInput.clear();
+    await editContactPage.submitButton.click();
+    await editContactPage.assertError(
+      'Validation failed: firstName: Path `firstName` is required.',
+    );
+  });
+
+  test('should show validation error when editing a contact and clearing last name', async ({
+    contactListPage,
+    addContactPage,
+    contactDetailPage,
+    editContactPage,
+  }) => {
+    const contact = generateContact();
+
+    // Create via UI then wait for redirect back to list
+    await contactListPage.goto();
+    await contactListPage.clickAddContact();
+    await addContactPage.fillAndSubmit(contact);
+    await contactListPage.assertOnContactListPage();
+
+    // Click contact row to open detail, then edit
+    await contactListPage.assertContactVisible(contact.firstName, contact.lastName);
+    await contactListPage.clickContact(contact.firstName, contact.lastName);
+    await contactDetailPage.clickEdit();
+
+    await editContactPage.assertOnEditContactPage();
+    await editContactPage.lastNameInput.clear();
+    await editContactPage.submitButton.click();
+    await editContactPage.assertError('Validation failed: lastName: Path `lastName` is required.');
+  });
+
+  test('should show validation error when editing a contact and clearing both names', async ({
+    contactListPage,
+    addContactPage,
+    contactDetailPage,
+    editContactPage,
+  }) => {
+    const contact = generateContact();
+
+    // Create via UI then wait for redirect back to list
+    await contactListPage.goto();
+    await contactListPage.clickAddContact();
+    await addContactPage.fillAndSubmit(contact);
+    await contactListPage.assertOnContactListPage();
+
+    // Click contact row to open detail, then edit
+    await contactListPage.assertContactVisible(contact.firstName, contact.lastName);
+    await contactListPage.clickContact(contact.firstName, contact.lastName);
+    await contactDetailPage.clickEdit();
+
+    await editContactPage.assertOnEditContactPage();
+    await editContactPage.firstNameInput.clear();
+    await editContactPage.lastNameInput.clear();
+    await editContactPage.submitButton.click();
+    await editContactPage.assertError(
+      'Validation failed: lastName: Path `lastName` is required., firstName: Path `firstName` is required.',
+    );
+  });
+
   test('should delete a contact and remove it from the list', async ({
     page,
     contactListPage,
