@@ -1,5 +1,4 @@
-import { test } from '@playwright/test';
-import { ContactListPage, AddContactPage } from '../../src/ui/pages';
+import { test } from '../../src/utils/fixtures';
 import { generateContact, generateUser } from '../../src/utils/data.factory';
 import { UserApiClient } from '../../src/api/clients/user.client';
 
@@ -38,9 +37,10 @@ test.describe('Add Contact', () => {
     }
   });
 
-  test('should create a new contact and display it in the list', async ({ page }) => {
-    const contactListPage = new ContactListPage(page);
-    const addContactPage = new AddContactPage(page);
+  test('should create a new contact and display it in the list', async ({
+    contactListPage,
+    addContactPage,
+  }) => {
     const contact = generateContact();
 
     await contactListPage.goto();
@@ -54,10 +54,10 @@ test.describe('Add Contact', () => {
     await contactListPage.assertContactVisible(contact.firstName, contact.lastName);
   });
 
-  test('should show validation error when required fields are missing', async ({ page }) => {
-    const contactListPage = new ContactListPage(page);
-    const addContactPage = new AddContactPage(page);
-
+  test('should show validation error when required fields are missing', async ({
+    contactListPage,
+    addContactPage,
+  }) => {
     await contactListPage.goto();
     await contactListPage.clickAddContact();
 
@@ -66,10 +66,10 @@ test.describe('Add Contact', () => {
     await addContactPage.assertError();
   });
 
-  test('should cancel and return to contact list without creating contact', async ({ page }) => {
-    const contactListPage = new ContactListPage(page);
-    const addContactPage = new AddContactPage(page);
-
+  test('should cancel and return to contact list without creating contact', async ({
+    contactListPage,
+    addContactPage,
+  }) => {
     await contactListPage.goto();
     await contactListPage.clickAddContact();
     await addContactPage.assertOnAddContactPage();

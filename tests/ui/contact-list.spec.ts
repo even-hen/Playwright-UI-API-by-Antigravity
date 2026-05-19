@@ -1,5 +1,4 @@
-import { test } from '@playwright/test';
-import { ContactListPage, AddContactPage } from '../../src/ui/pages';
+import { test } from '../../src/utils/fixtures';
 import { generateUser } from '../../src/utils/data.factory';
 import { UserApiClient } from '../../src/api/clients/user.client';
 
@@ -38,16 +37,15 @@ test.describe('Contact List', () => {
     }
   });
 
-  test('should display the contact list page after login', async ({ page }) => {
-    const contactListPage = new ContactListPage(page);
+  test('should display the contact list page after login', async ({ contactListPage }) => {
     await contactListPage.goto();
     await contactListPage.assertOnContactListPage();
   });
 
-  test('should navigate to Add Contact page on button click', async ({ page }) => {
-    const contactListPage = new ContactListPage(page);
-    const addContactPage = new AddContactPage(page);
-
+  test('should navigate to Add Contact page on button click', async ({
+    contactListPage,
+    addContactPage,
+  }) => {
     await contactListPage.goto();
     await contactListPage.clickAddContact();
 

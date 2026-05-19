@@ -1,5 +1,5 @@
-import { test, expect } from '@playwright/test';
-import { LoginPage, ContactListPage } from '../../src/ui/pages';
+import { test, expect } from '../../src/utils/fixtures';
+import { LoginPage } from '../../src/ui/pages';
 
 test.describe('Unauthenticated', () => {
   test.use({ storageState: { cookies: [], origins: [] } });

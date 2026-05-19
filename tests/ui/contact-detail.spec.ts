@@ -1,10 +1,4 @@
-import { test, expect } from '@playwright/test';
-import {
-  ContactListPage,
-  AddContactPage,
-  ContactDetailPage,
-  EditContactPage,
-} from '../../src/ui/pages';
+import { test, expect } from '../../src/utils/fixtures';
 import { generateContact, generateUser } from '../../src/utils/data.factory';
 import { UserApiClient } from '../../src/api/clients/user.client';
 
@@ -43,10 +37,11 @@ test.describe('Contact Detail', () => {
     }
   });
 
-  test('should display correct contact details when clicking a contact', async ({ page }) => {
-    const contactListPage = new ContactListPage(page);
-    const addContactPage = new AddContactPage(page);
-    const detailPage = new ContactDetailPage(page);
+  test('should display correct contact details when clicking a contact', async ({
+    contactListPage,
+    addContactPage,
+    contactDetailPage,
+  }) => {
     const contact = generateContact();
 
     // Create via UI then wait for redirect back to list
@@ -59,19 +54,20 @@ test.describe('Contact Detail', () => {
     await contactListPage.assertContactVisible(contact.firstName, contact.lastName);
     await contactListPage.clickContact(contact.firstName, contact.lastName);
 
-    await detailPage.assertOnContactDetailPage();
-    await detailPage.assertContactDetails({
+    await contactDetailPage.assertOnContactDetailPage();
+    await contactDetailPage.assertContactDetails({
       firstName: contact.firstName,
       lastName: contact.lastName,
       email: contact.email,
     });
   });
 
-  test('should edit a contact and reflect changes in the list', async ({ page }) => {
-    const contactListPage = new ContactListPage(page);
-    const addContactPage = new AddContactPage(page);
-    const detailPage = new ContactDetailPage(page);
-    const editPage = new EditContactPage(page);
+  test('should edit a contact and reflect changes in the list', async ({
+    contactListPage,
+    addContactPage,
+    contactDetailPage,
+    editContactPage,
+  }) => {
     const contact = generateContact();
     const updatedName = 'UpdatedFirstName';
 
@@ -84,20 +80,22 @@ test.describe('Contact Detail', () => {
     // Click contact row to open detail, then edit
     await contactListPage.assertContactVisible(contact.firstName, contact.lastName);
     await contactListPage.clickContact(contact.firstName, contact.lastName);
-    await detailPage.clickEdit();
+    await contactDetailPage.clickEdit();
 
-    await editPage.assertOnEditContactPage();
-    await editPage.fillAndSubmit({ firstName: updatedName });
+    await editContactPage.assertOnEditContactPage();
+    await editContactPage.fillAndSubmit({ firstName: updatedName });
 
     // Verify update reflected in detail page
-    await detailPage.assertOnContactDetailPage();
-    await expect(detailPage.firstNameField).toHaveText(updatedName);
+    await contactDetailPage.assertOnContactDetailPage();
+    await expect(contactDetailPage.firstNameField).toHaveText(updatedName);
   });
 
-  test('should delete a contact and remove it from the list', async ({ page }) => {
-    const contactListPage = new ContactListPage(page);
-    const addContactPage = new AddContactPage(page);
-    const detailPage = new ContactDetailPage(page);
+  test('should delete a contact and remove it from the list', async ({
+    page,
+    contactListPage,
+    addContactPage,
+    contactDetailPage,
+  }) => {
     const contact = generateContact();
 
     // Create via UI then wait for redirect back to list
@@ -109,7 +107,7 @@ test.describe('Contact Detail', () => {
     // Click contact to open detail, then delete
     await contactListPage.assertContactVisible(contact.firstName, contact.lastName);
     await contactListPage.clickContact(contact.firstName, contact.lastName);
-    await detailPage.deleteContact();
+    await contactDetailPage.deleteContact();
 
     // Should be back on list with contact removed
     await contactListPage.assertOnContactListPage();
