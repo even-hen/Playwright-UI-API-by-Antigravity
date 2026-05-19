@@ -30,10 +30,18 @@ A modern, production-grade test automation framework for the [Contact List App](
 │   ├── ui/
 │   │   └── pages/                    # Page Object Models (POM)
 │   └── utils/
-│       └── data.factory.ts           # Faker-based data generators
+│       ├── data.factory.ts           # Faker-based data generators
+│       └── fixtures.ts               # Custom Playwright page fixtures
 ├── tests/
-│   ├── api/contacts.spec.ts          # API tests
-│   └── ui/contacts.spec.ts           # UI tests
+│   ├── api/
+│   │   ├── contact.spec.ts           # API Contact CRUD tests
+│   │   └── user.spec.ts              # API User management tests
+│   └── ui/
+│       ├── add-contact.spec.ts       # UI Contact addition tests
+│       ├── contact-detail.spec.ts    # UI Contact detail & edit tests
+│       ├── contact-list.spec.ts      # UI Contact list & search tests
+│       ├── signUp.spec.ts            # UI Sign-up & Login tests
+│       └── unauthenticated.spec.ts   # UI Unauthenticated routing tests
 ├── playwright.config.ts              # Playwright configuration
 ├── Dockerfile                        # Docker image
 ├── docker-compose.yml                # Docker Compose services
@@ -121,6 +129,22 @@ UI pages are encapsulated in typed classes under `src/ui/pages/`:
 - `EditContactPage` — Contact edit form
 - `ContactDetailPage` — Contact detail view & delete
 
+### Custom Playwright Fixtures
+
+The framework registers Page Objects directly as **custom fixtures** in `src/utils/fixtures.ts`. This simplifies test writing by removing redundant class instantiation (`new PageObject(page)`) from each test.
+
+Page objects are automatically injected when destructured as arguments in a test block:
+
+```typescript
+import { test } from '../../src/utils/fixtures';
+
+test('should create a contact', async ({ contactListPage, addContactPage }) => {
+  await contactListPage.goto();
+  await contactListPage.clickAddContact();
+  await addContactPage.fillAndSubmit(contact);
+});
+```
+
 ### API Clients
 
 Typed clients wrapping Playwright's `request` context:
@@ -147,7 +171,7 @@ UI tests use dynamically created, isolated users per test context. A temporary u
 
 Add the following secrets to your GitHub repository (`Settings → Secrets → Actions`):
 
-| Secret               | Description        |
-| -------------------- | ------------------ |
-| `BASE_URL`           | App base URL       |
-| `API_BASE_URL`       | API base URL       |
+| Secret         | Description  |
+| -------------- | ------------ |
+| `BASE_URL`     | App base URL |
+| `API_BASE_URL` | API base URL |
