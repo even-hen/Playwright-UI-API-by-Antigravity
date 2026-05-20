@@ -162,4 +162,3 @@ contactSchema.parse(contact); // throws if response doesn't match schema
 ### Authentication Strategy
 
 UI tests use dynamically created, isolated users per test context. A temporary user is registered via the API before each test suite, and an authentication token is injected into the browser's `localStorage` and cookies to instantly authenticate the session. This enables fully parallel and isolated test execution without state pollution. The user is deleted via the API after the tests complete. Unauthenticated tests are run in a separate group.
-

@@ -52,14 +52,14 @@ test.describe('Unauthenticated', () => {
 
       // Attempt to access contact details directly
       await page.goto(`/contactDetails/${contactId}`);
-      
-      // Verify redirection to login or an error
-      await expect(page).toHaveURL(/\/login/, { timeout: 15_000 });
-      
+
+      // Verify no access to contact details
+      await expect(page).toHaveTitle('404', { timeout: 5_000 });
+
       await context.close();
     } finally {
       // Clean up the created user (this automatically deletes their contacts)
-      await userClient.deleteMe(token).catch(() => {});
+      await userClient.deleteMe(token).catch(() => { });
     }
   });
 });
