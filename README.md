@@ -44,8 +44,7 @@ A modern, production-grade test automation framework for the [Contact List App](
 │       └── unauthenticated.spec.ts   # UI Unauthenticated routing tests
 ├── playwright.config.ts              # Playwright configuration
 ├── Dockerfile                        # Docker image
-├── docker-compose.yml                # Docker Compose services
-└── .env.example                      # Environment variable template
+└── docker-compose.yml                # Docker Compose services
 ```
 
 ---
@@ -60,13 +59,11 @@ npm install
 npx playwright install --with-deps chromium firefox
 ```
 
-### 2. Configure Environment
+### 2. Environment Configuration
 
-```bash
-cp .env.example .env
-```
+The repository uses `dotenvx` to manage environment variables securely. The `.env` file is already committed to the repository in an encrypted or managed state. 
 
-Edit `.env` and set your credentials:
+You can run the tests directly and `dotenvx` will inject the correct environment variables automatically:
 
 ```
 BASE_URL=https://thinking-tester-contact-list.herokuapp.com
@@ -166,13 +163,3 @@ contactSchema.parse(contact); // throws if response doesn't match schema
 
 UI tests use dynamically created, isolated users per test context. A temporary user is registered via the API before each test suite, and an authentication token is injected into the browser's `localStorage` and cookies to instantly authenticate the session. This enables fully parallel and isolated test execution without state pollution. The user is deleted via the API after the tests complete. Unauthenticated tests are run in a separate group.
 
----
-
-## 🔒 GitHub Actions Secrets
-
-Add the following secrets to your GitHub repository (`Settings → Secrets → Actions`):
-
-| Secret         | Description  |
-| -------------- | ------------ |
-| `BASE_URL`     | App base URL |
-| `API_BASE_URL` | API base URL |

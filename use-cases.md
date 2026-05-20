@@ -152,6 +152,7 @@ Allows users to view all created contacts in the main table and inspect full det
 - **UI Coverage:**
   - 🟢 `tests/ui/contact-list.spec.ts` -> `"should display the contact list page"`
   - 🟢 `tests/ui/contact-detail.spec.ts` -> `"should display correct contact details when clicking a contact"`
+  - 🟢 `tests/ui/unauthenticated.spec.ts` -> `"should not allow access to contact details by direct link without login"`
 
 ---
 
