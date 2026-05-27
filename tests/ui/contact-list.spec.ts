@@ -33,7 +33,7 @@ test.describe('Contact List', () => {
 
   test.afterEach(async () => {
     if (token && userClient) {
-      await userClient.deleteMe(token).catch(() => { });
+      await userClient.deleteMe(token).catch(() => {});
     }
   });
 

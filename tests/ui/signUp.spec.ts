@@ -8,7 +8,7 @@ test.describe('Authenticated', () => {
   let tokenValue: string;
   const user = generateUser();
 
-  test.beforeAll(async ({ }) => { });
+  test.beforeAll(async ({}) => {});
 
   test.afterEach(async ({ context }) => {
     let cookies = await context.cookies();
@@ -20,7 +20,7 @@ test.describe('Authenticated', () => {
   test.afterAll(async ({ request }) => {
     let userClient = new UserApiClient(request, process.env.API_BASE_URL!);
     if (tokenValue && userClient) {
-      await userClient.deleteMe(tokenValue).catch(() => { });
+      await userClient.deleteMe(tokenValue).catch(() => {});
     }
   });
 

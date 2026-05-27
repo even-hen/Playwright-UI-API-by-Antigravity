@@ -35,7 +35,8 @@ test.describe('Unauthenticated', () => {
     browser,
     request,
   }) => {
-    const baseUrl = process.env.API_BASE_URL || 'https://thinking-tester-contact-list.herokuapp.com';
+    const baseUrl =
+      process.env.API_BASE_URL || 'https://thinking-tester-contact-list.herokuapp.com';
     const userClient = new UserApiClient(request, baseUrl);
     const userPayload = generateUser();
     const userResponse = await userClient.addUser(userPayload);
@@ -59,7 +60,7 @@ test.describe('Unauthenticated', () => {
       await context.close();
     } finally {
       // Clean up the created user (this automatically deletes their contacts)
-      await userClient.deleteMe(token).catch(() => { });
+      await userClient.deleteMe(token).catch(() => {});
     }
   });
 });

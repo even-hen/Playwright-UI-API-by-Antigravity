@@ -1,164 +1,86 @@
-# Playwright Test Automation Framework
+# 🎭 Playwright Test Automation Framework
 
-A modern, production-grade test automation framework for the [Contact List App](https://thinking-tester-contact-list.herokuapp.com), built by **Google Antigravity** with **TypeScript**, **Playwright**, and **Zod**.
-
----
-
-## 🚀 Tech Stack
-
-| Tool                                                  | Purpose                        |
-| ----------------------------------------------------- | ------------------------------ |
-| [Playwright](https://playwright.dev)                  | UI & API test runner           |
-| [TypeScript](https://www.typescriptlang.org)          | Type-safe test code            |
-| [Zod](https://zod.dev)                                | API response schema validation |
-| [@faker-js/faker](https://fakerjs.dev)                | Random test data generation    |
-| [Prettier](https://prettier.io)                       | Code formatting                |
-| [Docker](https://www.docker.com)                      | Containerized test execution   |
-| [GitHub Actions](https://github.com/features/actions) | CI/CD pipeline                 |
+A modern, production-grade test automation framework for the [Contact List App](https://thinking-tester-contact-list.herokuapp.com), built with **TypeScript** and **Playwright**.
 
 ---
 
-## 📁 Project Structure
-
-```
-├── .github/workflows/playwright.yml  # CI/CD pipeline
-├── src/
-│   ├── api/
-│   │   ├── clients/                  # UserApiClient, ContactApiClient
-│   │   ├── helpers/                  # request.helper.ts (HTTP wrappers)
-│   │   └── schemas/                  # Zod schemas & inferred types
-│   ├── ui/
-│   │   └── pages/                    # Page Object Models (POM)
-│   └── utils/
-│       ├── data.factory.ts           # Faker-based data generators
-│       └── fixtures.ts               # Custom Playwright page fixtures
-├── tests/
-│   ├── api/
-│   │   ├── contact.spec.ts           # API Contact CRUD tests
-│   │   └── user.spec.ts              # API User management tests
-│   └── ui/
-│       ├── add-contact.spec.ts       # UI Contact addition tests
-│       ├── contact-detail.spec.ts    # UI Contact detail & edit tests
-│       ├── contact-list.spec.ts      # UI Contact list & search tests
-│       ├── signUp.spec.ts            # UI Sign-up & Login tests
-│       └── unauthenticated.spec.ts   # UI Unauthenticated routing tests
-├── playwright.config.ts              # Playwright configuration
-├── Dockerfile                        # Docker image
-└── docker-compose.yml                # Docker Compose services
-```
-
----
-
-## ⚙️ Setup
-
-### 1. Clone & Install
+## 🛠️ Quick Start
 
 ```bash
-git clone <your-repo-url>
+git clone <your-repo-url> && cd <repo-dir>
 npm install
 npx playwright install --with-deps chromium firefox
 ```
 
-### 2. Environment Configuration
-
-The repository uses `dotenvx` to manage environment variables securely. The `.env` file is already committed to the repository in an encrypted or managed state. 
-
-You can run the tests directly and `dotenvx` will inject the correct environment variables automatically:
-
-```
+### Environment Setup
+Create a `.env` file (managed by `dotenvx`):
+```ini
 BASE_URL=https://thinking-tester-contact-list.herokuapp.com
 API_BASE_URL=https://thinking-tester-contact-list.herokuapp.com
-```
-
-## ▶️ Running Tests
-
-```bash
-# Run all tests (UI on chromium & firefox → API)
-npm test
-
-# Run only API tests
-npm run test:api
-
-# Run only UI tests
-npm run test:ui
-
-# Run tests with Playwright UI mode (interactive)
-npm run test:ui-mode
-
-# Open the HTML report after a run
-npm run report
-
-# Format code with Prettier
-npm run format
-
-# Check formatting without writing
-npm run format:check
+GEMINI_API_KEY=your_gemini_api_key_here # Optional: For AI visual layout/diagnostics
 ```
 
 ---
 
-## 🐳 Running with Docker
+## 🚀 Running Tests
 
+### Local Execution
 ```bash
-# Run all tests in Docker
-docker compose up playwright
-
-# Run only API tests
-docker compose up playwright-api
-
-# Run only UI tests
-docker compose up playwright-ui
+npm test              # Run all tests (UI → API)
+npm run test:api      # Run only API tests
+npm run test:ui       # Run only UI tests
+npm run test:ui-mode  # Open Playwright UI mode
+npm run report        # Open HTML test report
 ```
 
-Reports will be written to `./playwright-report` and `./test-results` on your host machine.
+### Docker Execution
+```bash
+docker compose up playwright     # Run all tests in Docker
+docker compose up playwright-api # Run only API tests
+docker compose up playwright-ui  # Run only UI tests
+```
 
 ---
 
-## 🏗️ Architecture
+## 📁 Directory Structure
 
-### Page Object Model (POM)
-
-UI pages are encapsulated in typed classes under `src/ui/pages/`:
-
-- `LoginPage` — Login form interactions & assertions
-- `ContactListPage` — Contact table, navigation, logout
-- `AddContactPage` — New contact form submission
-- `AddUserPage` — New user registration (sign-up) form submission
-- `EditContactPage` — Contact edit form
-- `ContactDetailPage` — Contact detail view & delete
-
-### Custom Playwright Fixtures
-
-The framework registers Page Objects directly as **custom fixtures** in `src/utils/fixtures.ts`. This simplifies test writing by removing redundant class instantiation (`new PageObject(page)`) from each test.
-
-Page objects are automatically injected when destructured as arguments in a test block:
-
-```typescript
-import { test } from '../../src/utils/fixtures';
-
-test('should create a contact', async ({ contactListPage, addContactPage }) => {
-  await contactListPage.goto();
-  await contactListPage.clickAddContact();
-  await addContactPage.fillAndSubmit(contact);
-});
+```
+├── .github/workflows/playwright.yml # CI/CD pipeline
+├── src/
+│   ├── api/                         # API clients (Zod validation & helpers)
+│   ├── ui/pages/                    # Page Object Models (POM)
+│   └── utils/                       # Faker data factories & custom fixtures
+└── tests/
+    ├── api/                         # Contact & User CRUD specs
+    └── ui/                          # UI flow & navigation specs
 ```
 
-### API Clients
+---
 
-Typed clients wrapping Playwright's `request` context:
+## 🏗️ Core Architecture
 
-- `UserApiClient` — Register, login, logout, delete account
-- `ContactApiClient` — Full CRUD for contacts
+- **Page Object Model (POM)**: Enriched pages under `src/ui/pages/` mapped to custom fixtures in `src/utils/fixtures.ts`. Eliminates redundant instantiations (`new PageObject()`) through dynamic injection.
+- **API Clients & Zod**: High-performance HTTP client wrappers `UserApiClient` and `ContactApiClient` enforcing runtime type-safety via Zod response validation.
+- **Isolated Authentication**: Fast, parallel execution using dynamically generated users. Sessions are authenticated instantly by injecting tokens into `localStorage` prior to each test, followed by API-based teardown.
 
-### Zod Schema Validation
+---
 
-Every API response is validated against a Zod schema before being used in assertions, ensuring runtime type safety:
+## 🤖 Google Gemini and AI Capabilities
 
+Equipped with cutting-edge AI features powered by `@google/genai`. Soft-skips gracefully if `GEMINI_API_KEY` is not present.
+
+### 1. Visual UX Auditor
+Uses Gemini Vision to perform semantic, layout-based design assertions on screenshots rather than fragile pixel-matching.
 ```typescript
-const contact = await contactClient.createContact(payload);
-contactSchema.parse(contact); // throws if response doesn't match schema
+import { assertVisualLayout } from '../../src/utils/ai-vision';
+await assertVisualLayout(page, 'The login card should be centered with visible, aligned input fields.');
 ```
 
-### Authentication Strategy
+### 2. Failure Diagnostics Reporter
+Lifecycle hooks automatically capture failures, evaluate step histories, and print a structured **Root Cause Analysis** and **Suggested Fix** directly to standard output on test error.
+*Run failure demo:* ` $env:RUN_FAILING_AI_TEST="true"; npx playwright test tests/ui/ai-visual.spec.ts`
 
-UI tests use dynamically created, isolated users per test context. A temporary user is registered via the API before each test suite, and an authentication token is injected into the browser's `localStorage` and cookies to instantly authenticate the session. This enables fully parallel and isolated test execution without state pollution. The user is deleted via the API after the tests complete. Unauthenticated tests are run in a separate group.
+### 3. Playwright Healer & Agents (v1.56+)
+Fully integrated **Playwright Healer, Planner, and Generator Agents** (`.github/agents/`) that leverage the **Model Context Protocol (MCP)** to dynamically heal selector drift and generate clean tests.
+*To activate:* Ask your IDE assistant (e.g. Claude Code, Copilot) using the local MCP server (`.vscode/mcp.json`):
+> _"Run the playwright healer agent on my failing login spec and automatically repair the locators."_

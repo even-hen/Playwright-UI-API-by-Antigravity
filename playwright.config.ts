@@ -17,7 +17,11 @@ export default defineConfig({
     timeout: 10_000,
   },
 
-  reporter: [['html', { outputFolder: 'playwright-report', open: 'never' }], ['list']],
+  reporter: [
+    ['html', { outputFolder: 'playwright-report', open: 'never' }],
+    ['list'],
+    ['./src/utils/ai-reporter.ts'],
+  ],
 
   use: {
     baseURL: process.env.BASE_URL,
